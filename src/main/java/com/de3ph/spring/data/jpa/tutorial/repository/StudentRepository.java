@@ -1,7 +1,9 @@
 package com.de3ph.spring.data.jpa.tutorial.repository;
 
 import com.de3ph.spring.data.jpa.tutorial.entity.Student;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -51,4 +53,13 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
             value = "SELECT * FROM student_sequence"
     )
     String getStudentSequenceFromDB();
+
+    @Modifying // database deki verileri modify etmesi için bi nevi izin vermiş oluyoruz bu notasyon ile
+    @Transactional // update ve delete querylerinde eklemek zorunlu, en başta repo interface ini de anote edebilirdik
+    @Query(
+            value = "UPDATE tbl_student SET first_name = :first_name WHERE email_address= :emailId",
+            nativeQuery = true
+    )
+    // metodun dönüş tipinin int olmasının sebebi database i modify ettiğinden kaç record etkilendi onun sayısını dönmesi
+    int updateStudentNameByEmailId(@Param("first_name") String firstName, @Param("emailId") String emailId);
 }

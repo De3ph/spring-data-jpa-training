@@ -2,6 +2,7 @@ package com.de3ph.spring.data.jpa.tutorial.repository;
 
 import com.de3ph.spring.data.jpa.tutorial.entity.Guardian;
 import com.de3ph.spring.data.jpa.tutorial.entity.Student;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -109,5 +110,12 @@ class StudentRepositoryTest {
     void printGetStudentSequenceNative() {
         String sequence = studentRepository.getStudentSequenceFromDB();
         System.out.println("sequence : " + sequence);
+    }
+
+    @Test
+    void printUpdateStudentFirstNameByEmailId(){
+        int res = studentRepository.updateStudentNameByEmailId("Shabbirr","shabbir@gmail.com");
+        String updatedName = studentRepository.getStudentFirstNameByEmailAddress("shabbir@gmail.com");
+        Assertions.assertEquals("Shabbirr",updatedName);
     }
 }
