@@ -48,10 +48,14 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     @Query(value = "SELECT * FROM tbl_student s where s.email_address = ?1 ", nativeQuery = true)
     Student getStudentByEmailAddressNative(String emailId);
 
-    @Query(
-            nativeQuery = true,
-            value = "SELECT * FROM student_sequence"
-    )
+    /*
+    * NativeQuery i resource -> META-INF -> jpa-named-queries.properties dosyasında yazdık
+    * Tek yapmamız gereken @Query ile native query olduğunu belirtmek
+    *
+    *  ! .properties deki isim ile metot ismi eşleşmeli !
+    *
+    * */
+    @Query(nativeQuery = true)
     String getStudentSequenceFromDB();
 
     @Modifying // database deki verileri modify etmesi için bi nevi izin vermiş oluyoruz bu notasyon ile
