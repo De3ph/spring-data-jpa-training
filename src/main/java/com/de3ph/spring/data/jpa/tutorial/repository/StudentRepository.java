@@ -3,6 +3,7 @@ package com.de3ph.spring.data.jpa.tutorial.repository;
 import com.de3ph.spring.data.jpa.tutorial.entity.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,13 +22,24 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     boolean existsByFirstName(String firstName);
 
     List<Student> findByFirstNameAndLastName(String firstName, String lastName);
+    /*
+    * eğer üstteki metodu jpql ile yazmak isteseydik şöyle yapardık
+    *
+    * @Query("SELECT s.firstName, s.lastName FROM Student s WHERE s.firstName = ?1 and s.lastName = ?2 ")
+    *
+    * */
 
     //JPQL query
     @Query("SELECT s FROM Student s where s.emailId = ?1 ")
     Student getStudentByEmailAddress(String emailId);
 
-    @Query("SELECT s.firstName FROM Student s where s.emailId = ?1 ")
-    String getStudentFirstNameByEmailAddress(String emailId);
+    @Query("SELECT s.firstName FROM Student s where s.emailId = :emailId ")
+    String getStudentFirstNameByEmailAddress(@Param("emailId") String emailId);
+    /*
+    * @Param sayesinde parametreleri isimlendirip sorguda isim ile kullanabiliyoruz
+    *
+    * @Param("abc") -> sorguda da = :abc
+    * */
 
     //Native Query : jpql yerine sql dilinde query çalıştırtıyor
 
