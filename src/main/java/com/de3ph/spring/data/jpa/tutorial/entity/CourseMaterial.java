@@ -32,9 +32,11 @@ public class CourseMaterial {
     * */
     @OneToOne(
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
+            fetch = FetchType.LAZY,
+            optional = false // herhangi bir CourseMaterial ı  kaydetmeye çalıştığımızda Course olmadan kayıt ettirmiyor
 
     )
+    // join column hangi class ta tanımlanmış ise o db de tabloda kolon oluşuyor
     @JoinColumn(
             name = "course_id",
             referencedColumnName = "courseId"

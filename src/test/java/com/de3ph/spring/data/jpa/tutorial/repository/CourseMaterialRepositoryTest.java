@@ -8,8 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 class CourseMaterialRepositoryTest {
     @Autowired
@@ -27,6 +25,17 @@ class CourseMaterialRepositoryTest {
                 .build();
 
         repository.save(courseMaterial);
+    }
+
+    @Test
+    void saveCourseMaterialWithoutCourse(){
+        // fail olmalı
+        CourseMaterial courseMaterial = CourseMaterial.builder()
+                .url("www.python.org")
+                .build();
+
+        repository.save(courseMaterial);
+
     }
 
     @Test
